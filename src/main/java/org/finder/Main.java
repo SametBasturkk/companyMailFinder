@@ -9,6 +9,8 @@ public class Main {
 
         HashMap<String, String> company = SqlLiteUtil.getCompanyById(1);
 
+        System.out.println(GoogleUtil.searchResults(company.get("name")));
+
 
     }
 }
