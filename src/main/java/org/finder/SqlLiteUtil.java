@@ -71,7 +71,7 @@ public class SqlLiteUtil {
         }
     }
 
-    public static void updateMail(String name, String data) {
+    public static void update(String name, String data) {
         String query = "UPDATE companies SET mail = ? WHERE name = ?;";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
