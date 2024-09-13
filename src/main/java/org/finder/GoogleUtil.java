@@ -19,7 +19,7 @@ public class GoogleUtil {
         return googleSearch(company);
     }
 
-    private static String googleSearch(String company) throws IOException {
+    private static String googleSearch(String company) throws IOException, InterruptedException {
         Document doc = Jsoup.connect("https://www.google.com/search?q=" +
                 URLEncoder.encode(company, "UTF-8")).userAgent(RandomUserAgentGenerator.getNextNonMobile()).get();
 
@@ -35,6 +35,7 @@ public class GoogleUtil {
             }
         }
 
+        LocalAIFilter.startAIProcess(company, urls.toString());
 
         return "test";
     }
