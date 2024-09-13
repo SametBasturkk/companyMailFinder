@@ -16,12 +16,11 @@ public class GoogleUtil {
 
 
     public static String searchResults(String company) throws IOException, InterruptedException {
-        return googleSearch(company);
+        return googleDirectlySearch(company);
     }
 
-    private static String googleSearch(String company) throws IOException, InterruptedException {
-        Document doc = Jsoup.connect("https://www.google.com/search?q=" +
-                URLEncoder.encode(company, "UTF-8")).userAgent(RandomUserAgentGenerator.getNextNonMobile()).get();
+    private static String googleDirectlySearch(String company) throws IOException, InterruptedException {
+        Document doc = Jsoup.connect("https://www.google.com/search?q=" + URLEncoder.encode(company, "UTF-8")).userAgent(RandomUserAgentGenerator.getNextNonMobile()).get();
 
         Elements results = doc.select("a[href]");
         ArrayList<String> urls = new ArrayList<>();
@@ -35,7 +34,7 @@ public class GoogleUtil {
             }
         }
 
-        LocalAIFilter.startAIProcess(company, urls.toString());
+        //   LocalAIFilter.startAIProcess(company, urls.toString());
 
         return "test";
     }
