@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Main {
 
-    private static final int MAX_THREADS = 48;
+    private static final int MAX_THREADS = 128;
 
     public static void main(String[] args) throws Exception {
         System.out.println("Starting the application...");
@@ -19,22 +19,20 @@ public class Main {
             final int companyId = i;
             executor.execute(() -> {
                 HashMap<String, String> company = SqlLiteUtil.getCompanyById(companyId);
-              /*
 
-              if (company.get("mail").contains("not found") || company.get("mail") == null) {
-                    HashMap<String, String> data = new HashMap<>();
-                    data.put("mail", GoogleUtil.searchResultsGoogleMail(company.get("name")));
-                    data.put("location", company.get("location"));
-                    SqlLiteUtil.update(company.get("location"), data.toString());
+                if (company.get("mail") == null || company.get("mail").equals("not found")) {
+                    SqlLiteUtil.updateMail(company.get("name"), BingUtil.searchResultsBingMail(company.get("name")));
+                } else {
+                    if (company.get("linkedin") == null || company.get("linkedin").equals("not found")) {
+                        SqlLiteUtil.updateLinkedin(company.get("name"), WebsiteUtil.websiteLinkedin(company.get("mail").split("@")[1]));
+                    }
                 }
 
-               */
-
-                if (company.get("location") == null) {
-                    HashMap<String, String> data = new HashMap<>();
-                    data.put("mail", company.get("mail"));
-                    SqlLiteUtil.update(company.get("name"), data.toString());
+                if (company.get("location") == null || company.get("location").equals("not found")) {
+                    SqlLiteUtil.updateAddress(company.get("name"), BingUtil.searchResultsBingLocation(company.get("name")));
                 }
+
+
             });
         }
 

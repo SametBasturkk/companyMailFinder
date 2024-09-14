@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class GoogleUtil {
+public class BingUtil {
 
     private static Pattern emailPattern = Pattern.compile("[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\\.[a-zA-Z0-9_-]+");
 
@@ -47,26 +47,26 @@ public class GoogleUtil {
     );
 
     @SneakyThrows
-    public static String searchResultsGoogleMail(String company) {
-        String mail = googleDirectlySearchMail(company);
+    public static String searchResultsBingMail(String company) {
+        String mail = bingDirectlySearchMail(company);
         return mail;
     }
 
     @SneakyThrows
-    public static String searchResultsGoogleLocation(String company) {
-        String location = googleDirectlySearchLocation(company);
+    public static String searchResultsBingLocation(String company) {
+        String location = bingDirectlySearchLocation(company);
         return location;
     }
 
-    private static String googleDirectlySearchMail(String company) throws IOException {
+    private static String bingDirectlySearchMail(String company) throws IOException {
         System.out.println("Searching for company: " + company);
-        Document doc = Jsoup.connect("https://www.bing.com/search?q=" + URLEncoder.encode(company + "  e-mail address", "UTF-8")).userAgent(RandomUserAgentGenerator.getNextNonMobile()).get();
+        Document doc = Jsoup.connect("https://www.bing.com/search?q=" + URLEncoder.encode(company + "  mail address", "UTF-8")).userAgent(RandomUserAgentGenerator.getNextNonMobile()).get();
 
         String extractedEmail = extractEmail(doc.body().text());
         return extractedEmail;
     }
 
-    private static String googleDirectlySearchLocation(String company) throws IOException {
+    private static String bingDirectlySearchLocation(String company) throws IOException {
         System.out.println("Searching for company: " + company);
         Document doc = Jsoup.connect("https://www.bing.com/search?q=" + URLEncoder.encode(company + " netherlands location", "UTF-8"))
                 .userAgent(RandomUserAgentGenerator.getNextNonMobile()).get();

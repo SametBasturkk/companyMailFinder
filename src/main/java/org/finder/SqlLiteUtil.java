@@ -49,7 +49,9 @@ public class SqlLiteUtil {
         String query = "CREATE TABLE IF NOT EXISTS companies (" +
                 "id INTEGER PRIMARY KEY," +
                 "name TEXT NOT NULL," +
-                "mail TEXT" +
+                "mail TEXT," +
+                "linkedin TEXT," +
+                "address TEXT" +
                 ");";
         try (Connection conn = dataSource.getConnection();
              Statement stmt = conn.createStatement()) {
@@ -71,7 +73,7 @@ public class SqlLiteUtil {
         }
     }
 
-    public static void update(String name, String data) {
+    public static void updateMail(String name, String data) {
         String query = "UPDATE companies SET mail = ? WHERE name = ?;";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -80,6 +82,30 @@ public class SqlLiteUtil {
             pstmt.executeUpdate();
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error updating mail", e);
+        }
+    }
+
+    public static void updateAddress(String name, String data) {
+        String query = "UPDATE companies SET address = ? WHERE name = ?;";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, data);
+            pstmt.setString(2, name);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error updating address", e);
+        }
+    }
+
+    public static void updateLinkedin(String name, String data) {
+        String query = "UPDATE companies SET linkedin = ? WHERE name = ?;";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, data);
+            pstmt.setString(2, name);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error updating linkedin", e);
         }
     }
 
@@ -108,7 +134,7 @@ public class SqlLiteUtil {
     }
 
     public static HashMap<String, String> getCompanyById(Integer id) {
-        String query = "SELECT name, mail FROM companies WHERE id = ?;";
+        String query = "SELECT name, mail, linkedin FROM companies WHERE id = ?;";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setInt(1, id);
@@ -117,6 +143,7 @@ public class SqlLiteUtil {
                 HashMap<String, String> company = new HashMap<>();
                 company.put("name", rs.getString("name"));
                 company.put("mail", rs.getString("mail"));
+                company.put("linkedin", rs.getString("linkedin"));
                 return company;
             }
         } catch (SQLException e) {
