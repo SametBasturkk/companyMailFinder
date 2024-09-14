@@ -82,6 +82,7 @@ public class BingUtil {
         return "not found";
     }
 
+
     private static String extractEmail(String text) {
         Matcher matcher = emailPattern.matcher(text);
         if (matcher.find()) {
